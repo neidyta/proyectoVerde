@@ -1,0 +1,11 @@
+{
+  "name": "proyecto-verde",
+  "version": "1.0.0",
+  "description": "proyecto mvc",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "author": "nt",
+  "license": "ISC"
+}
