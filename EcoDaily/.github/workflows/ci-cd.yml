@@ -1,0 +1,50 @@
+name: EcoDaily CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test-lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar Build
+        run: npm run build
+
+      - name: Ejecutar Lint
+        run: npm run lint
+
+      - name: Ejecutar Tests
+        run: npm test
+
+  deploy:
+
+    needs: build-test-lint
+
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+
+      - name: Simulación de despliegue
+        run: echo "Despliegue completado correctamente"
