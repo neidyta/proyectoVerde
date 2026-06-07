@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro</title>
+
+<link rel="stylesheet" href="/style.css">
+
+<style>
+
+.form-container{
+    max-width:500px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="form-container">
+
+    <h2>Crear cuenta</h2>
+
+    <form id="registroForm">
+
+        <div class="form-group">
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Nombre completo"
+            >
+        </div>
+
+        <div class="form-group">
+            <input
+                type="email"
+                id="correo"
+                placeholder="Correo electrónico"
+            >
+        </div>
+
+        <div class="form-group">
+            <input
+                type="password"
+                id="password"
+                placeholder="Contraseña"
+            >
+        </div>
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+            Registrarse
+        </button>
+
+    </form>
+
+    <p id="mensaje"></p>
+
+</div>
+
+<script>
+
+const form = document.getElementById("registroForm");
+
+form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const usuario = {
+        nombre: document.getElementById("nombre").value,
+        correo: document.getElementById("correo").value,
+        password: document.getElementById("password").value
+    };
+
+    const response = await fetch(
+        "/api/auth/registro",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(usuario)
+        }
+    );
+
+    const data = await response.json();
+
+    document.getElementById("mensaje")
+        .innerText = data.mensaje;
+
+        if(response.ok){
+
+    localStorage.setItem(
+        "usuarioNombre",
+        usuario.nombre
+    );
+
+    setTimeout(() => {
+
+        window.location.href = "/dashboard";
+
+    },1000);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

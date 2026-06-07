@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Mis Registros</title>
+
+<link rel="stylesheet" href="/style.css">
+
+<style>
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+th, td{
+
+    padding:12px;
+    border:1px solid #ddd;
+    text-align:center;
+
+}
+
+th{
+
+    background:#2E7D32;
+    color:white;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <h2>🌱 EcoDaily</h2>
+
+        <a href="/dashboard">🏠 Inicio</a>
+
+        <a href="/resultados">📊 Resultados</a>
+
+        <a href="/recomendaciones">💡 Recomendaciones</a>
+
+        <a href="/mis-registros">📋 Mis Registros</a>
+
+        <hr style="margin:30px 0; border-color:rgba(255,255,255,.2)">
+
+        <a href="#" onclick="cerrarSesion()">
+            🚪 Cerrar sesión
+        </a>
+
+    </aside>
+
+    <main class="main-content">
+
+        <div class="card">
+
+            <h2>Mis Registros</h2>
+
+            <br>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Transporte</th>
+
+                        <th>Agua</th>
+
+                        <th>Energía</th>
+
+                        <th>Residuos</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tablaRegistros">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+async function cargarRegistros(){
+
+    const response =
+        await fetch(
+            "/api/habitos/mis-registros"
+        );
+
+    const registros =
+        await response.json();
+
+    const tabla =
+        document.getElementById(
+            "tablaRegistros"
+        );
+
+    registros.forEach(registro => {
+
+        tabla.innerHTML += `
+
+        <tr>
+
+            <td>${registro.transporte}</td>
+
+            <td>${registro.agua}</td>
+
+            <td>${registro.energia}</td>
+
+            <td>${registro.residuos}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+cargarRegistros();
+
+function cerrarSesion(){
+
+    localStorage.removeItem(
+        "usuarioNombre"
+    );
+
+    window.location.href = "/";
+
+}
+
+</script>
+
+</body>
+</html>
